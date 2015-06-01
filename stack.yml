@@ -1,0 +1,24 @@
+db:
+  image: 'redis:latest'
+  tags:
+    - databases
+  target_num_containers: 2
+loadbalancer:
+  image: 'tutum/haproxy:latest'
+  links:
+    - web
+  ports:
+    - '8000:8000'
+  tags:
+    - loadbalancing
+web:
+  image: 'thecodeassassin/tech-test:latest'
+  environment:
+    - ALLOW_OVERRIDE=True
+  links:
+    - db
+  ports:
+    - '8000:8000'
+  tags:
+    - stateless
+  target_num_containers: 2
