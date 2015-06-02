@@ -1,16 +1,9 @@
 db:
   image: 'redis:latest'
+  restart: always
   tags:
     - databases
   target_num_containers: 2
-loadbalancer:
-  image: 'tutum/haproxy:latest'
-  links:
-    - web
-  ports:
-    - '8000:8000'
-  tags:
-    - loadbalancing
 web:
   image: 'thecodeassassin/tech-test:latest'
   environment:
@@ -18,7 +11,8 @@ web:
   links:
     - db
   ports:
-    - '8000:8000'
+    - '8000:80'
+  restart: always
   tags:
     - stateless
   target_num_containers: 2
