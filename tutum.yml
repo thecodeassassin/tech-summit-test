@@ -1,17 +1,26 @@
+loadbalancer:
+  image: tutum/haproxy
+  links:
+    - web
+  ports:
+    - '80:80'
+  tags:
+    - haproxy
+
 db:
   image: 'redis:latest'
   restart: always
   tags:
     - databases
   target_num_containers: 2
+  volumes:
+     - /data
 web:
   image: 'thecodeassassin/tech-test:latest'
   environment:
     - ALLOW_OVERRIDE=True
   links:
     - db
-  ports:
-    - '8000:80'
   restart: always
   tags:
     - stateless

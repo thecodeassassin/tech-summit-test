@@ -6,6 +6,7 @@ web:
     ALLOW_OVERRIDE: true
   ports:
    - "8000:80"
-   - "6379:6379"
 db:
   image: redis
+  volumes:
+    - /data
